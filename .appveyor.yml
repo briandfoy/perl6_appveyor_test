@@ -31,6 +31,8 @@ install:
   - git clone https://github.com/ugexe/zef
   - cd zef
   - perl6 -Ilib bin/zef install .
+  # install the target distribution's dependencies
+  - zef --verbose install .
 
 build: off
 
