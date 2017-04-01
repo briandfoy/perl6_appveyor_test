@@ -34,7 +34,8 @@ install:
           Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName %APPVEYOR_BUILD_FOLDER%\..\rakudo.msi
           get-filehash -algorithm md5 rakudo.msi
           Start-Process -FilePath 'msiexec.exe' -ArgumentList '/i %APPVEYOR_BUILD_FOLDER%\..\rakudo.msi /qn /norestart /log install.log' -Wait -Passthru
-          Start-Sleep -s 30
+          Write-Host 'Sleeping for 60 seconds to let Rakudo install'
+          Start-Sleep -s 60
           get-content -Path install.log
         }
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
