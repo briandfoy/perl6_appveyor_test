@@ -10,7 +10,6 @@ branches:
   only:
     - master
 
-# need to figure out to skip rakudo if it is already there
 install:
   - if not exist "C:\Strawberry" cinst strawberryperl
   - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
