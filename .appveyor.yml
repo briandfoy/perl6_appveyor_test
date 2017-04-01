@@ -3,8 +3,10 @@ os: Visual Studio 2015
 platform: x64
 
 cache:
-    - C:\Strawberry
-    - C:\Rakudo
+    - C:\Strawberry -> .appveyor_clear_cache.txt
+# clearing the cache: https://github.com/appveyor/ci/issues/985
+# change .appveyor_clear_cache.txt to invalidate cache
+    - C:\Rakudo -> .appveyor_clear_cache.txt
 
 branches:
   only:
