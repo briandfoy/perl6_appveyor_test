@@ -44,9 +44,9 @@ install:
           Write-Host (Get-Item -Path ".\" -Verbose).FullName
           Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
           get-filehash -algorithm md5 'rakudo.msi'
-          Start-Process -FilePath 'start' -ArgumentList '/wait msiexec.msi /i rakudo.msi /log rakudo-install.log'
-          type 'rakudo-install.log'
         }
+  - start /wait msiexec /i rakudo.msi /qn /log rakudo-install.log
+  - type rakudo-install.log
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
   - perl6 -v
