@@ -28,15 +28,23 @@ branches:
 #
 environment:
     MY_VAR: true
+    MSIEXEC_WAIT_SECONDS: 10
 
 install:
   - if not exist "C:\Strawberry" cinst strawberryperl
   - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - ps: refreshenv
+  # I wish there was an up-tp-date chocolately package for Rakudo
+  # https://chocolatey.org/packages/rakudostar/2014.12.1
+  #
   # multiline must be indented to the same column as the |. Only spaces!
   #
-  # Start-Process isn't working. No idea why.
+  # Start-Process for msiexec doesn't work because the -Wait doesn't
+  # know about the external msiexec. It returns right away.
   # https://blogs.msdn.microsoft.com/heaths/2005/11/15/waiting-for-msiexec-exe-to-finish/
+  #
+  # The external msiexec process needs some time to work, so sleep a bit.
+  # By trial and error, I think the installation time is about 4 seconds.
   - ps: |
         if ( ! (Test-Path C:\Rakudo) )
         {
@@ -45,22 +53,25 @@ install:
           Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
           get-filehash -algorithm md5 'rakudo.msi'
           msiexec /i rakudo.msi /quiet /qn /norestart /log rakudo-install.log
-          Start-Sleep -s 60
+          Write-Host "Waiting $env:MSIEXEC_WAIT_SECONDS seconds for msiexec to finish"
+          Write-Host "Set MSIEXEC_WAIT_SECONDS to change that wait period"
+          Start-Sleep -s $env:MSIEXEC_WAIT_SECONDS
         }
   # I'd like this start /wait be be in the above Powershell block but
   # I couldn't make it work.
-  #- start /wait msiexec /i rakudo.msi /qn /log rakudo-install.log
   - type rakudo-install.log
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
   - perl6 -v
   # probably want to install zef as a group of steps
+  # Anything zef installs becomes part of the cached Rakudo at the end
   - git clone https://github.com/ugexe/zef %APPVEYOR_BUILD_FOLDER%\..\zef
   - cd %APPVEYOR_BUILD_FOLDER%\..\zef
   - perl6 -Ilib bin/zef install .
   # install the target distribution's dependencies
   - zef --verbose install .
-  # change back to the target project's clone folder
+  # change back to the target project's clone folder.
+  # Now we should be ready to run the tests
   - cd %APPVEYOR_BUILD_FOLDER%
 
 build: off
