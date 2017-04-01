@@ -1,0 +1,37 @@
+os: Visual Studio 2015
+
+platform: x64
+
+cache:
+    - C:\Strawberry
+    - C:\Rakudo
+
+branches:
+  only:
+    - master
+
+install:
+  - '"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64'
+  - if not exist "C:\Strawberry" cinst strawberryperl
+  - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
+  - ps: refreshenv
+  - ps: Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
+  - ps: get-filehash -algorithm md5 rakudo.msi
+  - start /wait msiexec /i rakudo.msi /qn /norestart /log C:\projects\perl6-chemistry-elements\install.log
+  - dir
+  - ps: get-content -Path C:\projects\perl6-chemistry-elements\install.log
+  - dir C:\
+  - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
+  - ps: refreshenv
+
+build: off
+
+test_script:
+  - perl6 -v
+#  - perl6 -Ilib bin/zef --verbose install .
+#  - prove -v -e "perl6 -Ilib" t/
+
+shallow_clone: true
+
+
+# http://codegists.com/snippet/yaml/appveyoryml_martimm_yaml
