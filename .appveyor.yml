@@ -71,8 +71,6 @@ install:
           Write-Host "Set MSIEXEC_WAIT_SECONDS to change that wait period"
           Start-Sleep -s $env:MSIEXEC_WAIT_SECONDS
         }
-  # I'd like this start /wait be be in the above Powershell block but
-  # I couldn't make it work.
   - type rakudo-install.log
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
@@ -90,10 +88,12 @@ install:
 
 build: off
 
+# many of the settings in `environment` affect what happens in the test script
+#
+# I'd like to run Devel::Cover and submit to Coveralls too.
 test_script:
   - prove -v -e "perl6 -Ilib" t/
 
-# many of the settings in `environment` affect what happens in the test script
 shallow_clone: true
 
 # Other Perl 6 AppVeyor configs
