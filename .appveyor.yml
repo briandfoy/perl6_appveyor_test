@@ -26,9 +26,9 @@ install:
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
   - perl6 -v
-  # probably want to install zef as a group, and in a different directory
-  - git clone https://github.com/ugexe/zef
-  - cd zef
+  # probably want to install zef as a group of steps
+  - git clone https://github.com/ugexe/zef %APPVEYOR_BUILD_FOLDER%\..\zef
+  - cd %APPVEYOR_BUILD_FOLDER%\..\zef
   - perl6 -Ilib bin/zef install .
   # install the target distribution's dependencies
   - zef --verbose install .
