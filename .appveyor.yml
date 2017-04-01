@@ -30,10 +30,10 @@ install:
   - ps: |
         if ( ! (Test-Path C:\Rakudo) )
         {
-          Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName %APPVEYOR_BUILD_FOLDER%\..\rakudo.msi
-          get-filehash -algorithm md5 %APPVEYOR_BUILD_FOLDER%\..\rakudo.msi
-          Start-Process -FilePath 'msiexec.exe' -ArgumentList '/i %APPVEYOR_BUILD_FOLDER%\..\rakudo.msi /qn /norestart /log install.log' -Wait -Passthru
-          get-content -Path install.log
+          Set-Location -Path %APPVEYOR_BUILD_FOLDER%\..
+          Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
+          get-filehash -algorithm md5 'rakudo.msi'
+          Start-Process -FilePath 'msiexec.exe' -ArgumentList '/i rakudo.msi /qn /norestart /log' -Wait -Passthru
         }
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
