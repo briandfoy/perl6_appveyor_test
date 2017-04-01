@@ -15,7 +15,7 @@ branches:
     - master
 
 environment:
-    - MY_VAR: true
+    MY_VAR: true
 
 install:
   - if not exist "C:\Strawberry" cinst strawberryperl
