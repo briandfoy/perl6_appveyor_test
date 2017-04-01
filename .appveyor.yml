@@ -70,8 +70,8 @@ install:
           Write-Host "Waiting $env:MSIEXEC_WAIT_SECONDS seconds for msiexec to finish"
           Write-Host "Set MSIEXEC_WAIT_SECONDS to change that wait period"
           Start-Sleep -s $env:MSIEXEC_WAIT_SECONDS
+          type rakudo-install.log
         }
-  - type rakudo-install.log
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
   - perl6 -v
