@@ -27,15 +27,12 @@ install:
   - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - ps: refreshenv
   # multiline must be indented to the same column as the |. Only spaces!
-  # the Start-Process isn't waiting, so there's a Start-Sleep
   - ps: |
         if ( ! (Test-Path C:\Rakudo) )
         {
           Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName %APPVEYOR_BUILD_FOLDER%\..\rakudo.msi
-          get-filehash -algorithm md5 rakudo.msi
+          get-filehash -algorithm md5 %APPVEYOR_BUILD_FOLDER%\..\rakudo.msi
           Start-Process -FilePath 'msiexec.exe' -ArgumentList '/i %APPVEYOR_BUILD_FOLDER%\..\rakudo.msi /qn /norestart /log install.log' -Wait -Passthru
-          Write-Host 'Sleeping for 120 seconds to let Rakudo install'
-          Start-Sleep -s 120
           get-content -Path install.log
         }
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
