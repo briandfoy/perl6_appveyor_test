@@ -33,7 +33,7 @@ install:
           Set-Location -Path %APPVEYOR_BUILD_FOLDER%\..
           Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
           get-filehash -algorithm md5 'rakudo.msi'
-          Start-Process -FilePath 'msiexec.exe' -ArgumentList '/i rakudo.msi /qn /norestart /log' -Wait -Passthru
+          Start-Process -FilePath 'msiexec.exe' -ArgumentList '/i rakudo.msi /qn /norestart /log' -Wait -NoNewWindow
         }
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
