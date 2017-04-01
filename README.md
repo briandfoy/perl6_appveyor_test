@@ -9,4 +9,4 @@ The [test results list](https://ci.appveyor.com/project/briandfoy/perl6-appveyor
 If you'd like a feature, [create an issue](https://github.com/briandfoy/perl6_appveyor_test/issues)
 or send a pull request.
 
-[![Dumper fire](http://giphy.com/embed/26FPy3QZQqGtDcrja)](https://giphy.com/gifs/fire-dumpster-26FPy3QZQqGtDcrja)
+[![Dumper fire](https://giphy.com/embed/26FPy3QZQqGtDcrja)](https://giphy.com/gifs/fire-dumpster-26FPy3QZQqGtDcrja)
