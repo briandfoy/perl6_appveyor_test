@@ -17,6 +17,8 @@ branches:
   only:
     - master
 
+# set your own environment variables here.
+#
 environment:
     MY_VAR: true
 
