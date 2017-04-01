@@ -37,9 +37,7 @@ install:
 build: off
 
 test_script:
-  - perl6 -v
-#  - perl6 -Ilib bin/zef --verbose install .
-#  - prove -v -e "perl6 -Ilib" t/
+  - prove -v -e "perl6 -Ilib" t/
 
 shallow_clone: true
 
