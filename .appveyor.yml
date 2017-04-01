@@ -17,7 +17,7 @@ install:
   - ps: refreshenv
   # multiline must be indented to the same column as the |
   - ps: |
-        if ( ! Test-Path C:\Rakudo )
+        if ( ! (Test-Path C:\Rakudo) )
         {
           Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
           get-filehash -algorithm md5 rakudo.msi
