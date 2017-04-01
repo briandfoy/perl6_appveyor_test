@@ -1,3 +1,5 @@
+# AppVeyor environment variables: https://www.appveyor.com/docs/environment-variables/
+
 os: Visual Studio 2015
 
 platform: x64
@@ -11,6 +13,9 @@ cache:
 branches:
   only:
     - master
+
+environment:
+    - MY_VAR: true
 
 install:
   - if not exist "C:\Strawberry" cinst strawberryperl
