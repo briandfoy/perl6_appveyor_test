@@ -26,6 +26,9 @@ install:
         }
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
+  - git clone https://github.com/ugexe/zef
+  - cd zef
+  - perl6 -Ilib bin/zef install .
 
 build: off
 
