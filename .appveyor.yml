@@ -15,7 +15,7 @@ install:
   - if not exist "C:\Strawberry" cinst strawberryperl
   - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - ps: refreshenv
-  # multiline must be indented to the same column as the |
+  # multiline must be indented to the same column as the |. Only spaces!
   - ps: |
         if ( ! (Test-Path C:\Rakudo) )
         {
