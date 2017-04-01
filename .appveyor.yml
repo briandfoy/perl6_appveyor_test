@@ -32,7 +32,7 @@ install:
   - ps: |
         if ( ! (Test-Path C:\Rakudo) )
         {
-          Set-Location -Path %APPVEYOR_BUILD_FOLDER%\..
+          Set-Location -Path (get-item %APPVEYOR_BUILD_FOLDER% ).parent
           Write-Host (Get-Item -Path ".\" -Verbose).FullName
           Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
           get-filehash -algorithm md5 'rakudo.msi'
