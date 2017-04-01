@@ -27,10 +27,13 @@ install:
   - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - ps: refreshenv
   # multiline must be indented to the same column as the |. Only spaces!
+  #
+  # Start-Process isn't working. No idea why.
   - ps: |
         if ( ! (Test-Path C:\Rakudo) )
         {
           Set-Location -Path %APPVEYOR_BUILD_FOLDER%\..
+          Write-Host (Get-Item -Path ".\" -Verbose).FullName
           Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
           get-filehash -algorithm md5 'rakudo.msi'
           Start-Process -FilePath 'msiexec.exe' -ArgumentList '/i rakudo.msi /qn /norestart /log' -Wait -NoNewWindow
