@@ -6,6 +6,9 @@ platform: x64
 
 # clearing the cache: https://github.com/appveyor/ci/issues/985
 # change .appveyor_clear_cache.txt to invalidate cache
+#
+# If the build is successful, AppVeyor caches these files and
+# directories for future builds
 cache:
     - C:\Strawberry -> .appveyor_clear_cache.txt
     - C:\Rakudo -> .appveyor_clear_cache.txt
