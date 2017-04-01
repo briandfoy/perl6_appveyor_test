@@ -1,1 +1,9 @@
-test
+When you change this file, commit it, and push to GitHub, Appveyor
+invalidates its cache:
+
+	cache:
+		- C:\Strawberry -> .appveyor_clear_cache.txt
+		- C:\Rakudo -> .appveyor_clear_cache.txt
+
+I suggest adding something to the end of the file, or removing what
+you might have added.
