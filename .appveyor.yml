@@ -77,10 +77,13 @@ install:
   - perl6 -v
   # probably want to install zef as a group of steps
   # Anything zef installs becomes part of the cached Rakudo at the end
+  # With 2017.01, zef already comes with Rakudo Star so I probably don't
+  # need to do this. Still, we'll get the freshest one.
   - git clone https://github.com/ugexe/zef %APPVEYOR_BUILD_FOLDER%\..\zef
   - cd %APPVEYOR_BUILD_FOLDER%\..\zef
   - perl6 -Ilib bin/zef install .
-  # install the target distribution's dependencies
+  # install the target distribution's dependencies. You'll need to
+  # maintain your META6.json file in the top-level directory
   - zef --verbose install .
   # change back to the target project's clone folder.
   # Now we should be ready to run the tests
