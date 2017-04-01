@@ -49,3 +49,5 @@ shallow_clone: true
 #   https://gist.github.com/MARTIMM/b0cc86cec30dbcabf6e9732a53879dbb/
 #   https://github.com/perl6/atom-language-perl6/blob/master/appveyor.yml
 #   https://github.com/azawawi/perl6-opencv/blob/master/appveyor.yml
+#   https://github.com/ugexe/Perl6-Distribution--Common--Remote/blob/master/.appveyor.yml
+#   https://github.com/azawawi/perl6-net-curl/blob/master/appveyor.yml
