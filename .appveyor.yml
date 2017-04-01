@@ -47,8 +47,9 @@ install:
   - if not exist "C:\Strawberry" cinst strawberryperl
   - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - ps: refreshenv
-  # I wish there was an up-tp-date chocolately package for Rakudo
+  # I wish there was an up-to-date chocolately package for Rakudo
   # https://chocolatey.org/packages/rakudostar/2014.12.1
+  # https://github.com/MadcapJake/chocolatey-packages
   #
   # multiline must be indented to the same column as the |. Only spaces!
   #
