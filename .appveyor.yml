@@ -32,6 +32,8 @@ install:
   - perl6 -Ilib bin/zef install .
   # install the target distribution's dependencies
   - zef --verbose install .
+  # change back to the target project's clone folder
+  - cd %APPVEYOR_BUILD_FOLDER%
 
 build: off
 
