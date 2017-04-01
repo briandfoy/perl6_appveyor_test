@@ -36,6 +36,7 @@ install:
   # multiline must be indented to the same column as the |. Only spaces!
   #
   # Start-Process isn't working. No idea why.
+  # https://blogs.msdn.microsoft.com/heaths/2005/11/15/waiting-for-msiexec-exe-to-finish/
   - ps: |
         if ( ! (Test-Path C:\Rakudo) )
         {
@@ -43,7 +44,7 @@ install:
           Write-Host (Get-Item -Path ".\" -Verbose).FullName
           Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
           get-filehash -algorithm md5 'rakudo.msi'
-          start /wait msiexec.msi /i 'rakudo.msi' /log 'rakudo-install.log'
+          Start-Process -FilePath 'start' -ArgumentList '/wait msiexec.msi /i rakudo.msi /log rakudo-install.log'
           type 'rakudo-install.log'
         }
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
