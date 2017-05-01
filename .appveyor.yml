@@ -47,47 +47,13 @@ install:
   - if not exist "C:\Strawberry" cinst strawberryperl
   - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - ps: refreshenv
-  # I wish there was an up-to-date chocolately package for Rakudo
-  # https://chocolatey.org/packages/rakudostar/2014.12.1
-  # https://github.com/MadcapJake/chocolatey-packages
-  #
-  # multiline must be indented to the same column as the |. Only spaces!
-  #
-  # Start-Process for msiexec doesn't work because the -Wait doesn't
-  # know about the external msiexec. It returns right away.
-  # https://blogs.msdn.microsoft.com/heaths/2005/11/15/waiting-for-msiexec-exe-to-finish/
-  #
-  # The external msiexec process needs some time to work, so sleep a bit.
-  # By trial and error, I think the installation time is about 4 seconds.
-  - ps: |
-        if ( ! (Test-Path C:\Rakudo) )
-        {
-          Set-Location -Path "$env:APPVEYOR_BUILD_FOLDER\.."
-          Write-Host (Get-Item -Path ".\" -Verbose).FullName
-          Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
-          get-filehash -algorithm md5 'rakudo.msi'
-          msiexec /i rakudo.msi /quiet /qn /norestart /log rakudo-install.log
-          Write-Host "Waiting $env:MSIEXEC_WAIT_SECONDS seconds for msiexec to finish"
-          Write-Host "Set MSIEXEC_WAIT_SECONDS to change that wait period"
-          Start-Sleep -s $env:MSIEXEC_WAIT_SECONDS
-          type rakudo-install.log
-        }
+  - perl -v
+  # Install Rakudo Star with chocolately.
+  # https://chocolatey.org/packages/rakudostar
+  - if not exist "C:\Rakudo" cinst rakudostar
   - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
   - perl6 -v
-  # probably want to install zef as a group of steps
-  # Anything zef installs becomes part of the cached Rakudo at the end
-  # With 2017.01, zef already comes with Rakudo Star so I probably don't
-  # need to do this. Still, we'll get the freshest one.
-  - git clone https://github.com/ugexe/zef %APPVEYOR_BUILD_FOLDER%\..\zef
-  - cd %APPVEYOR_BUILD_FOLDER%\..\zef
-  - perl6 -Ilib bin/zef install .
-  # install the target distribution's dependencies. You'll need to
-  # maintain your META6.json file in the top-level directory
-  - zef --verbose install .
-  # change back to the target project's clone folder.
-  # Now we should be ready to run the tests
-  - cd %APPVEYOR_BUILD_FOLDER%
 
 build: off
 
