@@ -7,7 +7,7 @@ my $package = 'Perl6AppVeyorTest';
 
 my $class = ::($package);
 
-can-ok $class,'new';
+can-ok $class, 'new';
 can-ok $class, 'add-numbers';
 can-ok $class, 'subtract-numbers';
 can-ok $class, 'multiply-numbers';
