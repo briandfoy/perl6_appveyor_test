@@ -4,7 +4,7 @@
 # I specifically don't build Rakudo from GitHub because I want to use
 # the "normal people" release.
 
-
+# AppVeyor on Linux: https://www.appveyor.com/docs/getting-started-with-appveyor-for-linux/#running-windows-and-linux-builds-side-by-side
 # AppVeyor environment variables: https://www.appveyor.com/docs/environment-variables/
 
 image:
