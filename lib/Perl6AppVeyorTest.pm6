@@ -20,7 +20,7 @@ class Perl6AppVeyorTest {
 
 	method multiply-numbers ( Int $m, Int $n --> Int ) {
 		my $sum = 0;
-		for 1 .. $n -> () { $sum += $m }
+		for 1 .. $n -> { $sum += $m }
 		return $sum;
 		}
 	}
