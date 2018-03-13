@@ -8,8 +8,8 @@
 # AppVeyor environment variables: https://www.appveyor.com/docs/environment-variables/
 
 image:
-- Visual Studio 2015
-- Ubuntu
+  - Visual Studio 2015
+  - Ubuntu
 
 platform: x64
 
