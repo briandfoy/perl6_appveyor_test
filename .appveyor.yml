@@ -13,21 +13,6 @@ image:
 
 platform: x64
 
-# An experimental AppVeyor config to install Strawberry Perl and
-# Rakudo Star. Once installed, AppVeyor caches those for use next time.
-#
-# I specifically don't build Rakudo from GitHub because I want to use
-# the "normal people" release.
-
-
-# AppVeyor environment variables: https://www.appveyor.com/docs/environment-variables/
-
-image:
-- Visual Studio 2015
-- Ubuntu
-
-platform: x64
-
 # clearing the cache: https://github.com/appveyor/ci/issues/985
 # change .appveyor_clear_cache.txt to invalidate cache
 #
