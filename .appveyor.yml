@@ -41,8 +41,8 @@ install:
   - cmd: if not exist "C:\Strawberry" cinst strawberryperl
   - cmd: SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - ps: refreshenv
-  - sh: apt-get install build-essential git libssl-dev
-  - sh: apt-get install -y perl
+  - sh: sudo apt-get install build-essential git libssl-dev
+  - sh: sudo apt-get install -y perl
   - perl -v
   # Install Rakudo Star with chocolately.
   # https://chocolatey.org/packages/rakudostar
