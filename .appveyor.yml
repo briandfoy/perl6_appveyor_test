@@ -1,6 +1,15 @@
+# An experimental AppVeyor config to install Strawberry Perl and
+# Rakudo Star. Once installed, AppVeyor caches those for use next time.
+#
+# I specifically don't build Rakudo from GitHub because I want to use
+# the "normal people" release.
+
+
 # AppVeyor environment variables: https://www.appveyor.com/docs/environment-variables/
 
-os: Visual Studio 2015
+image:
+- Visual Studio 2015
+- Ubuntu
 
 platform: x64
 
@@ -10,8 +19,8 @@ platform: x64
 # If the build is successful, AppVeyor caches these files and
 # directories for future builds
 cache:
-    - C:\Strawberry -> .appveyor_clear_cache.txt
-    - C:\Rakudo -> .appveyor_clear_cache.txt
+    - ps: C:\Strawberry -> .appveyor_clear_cache.txt
+    - ps: C:\Rakudo -> .appveyor_clear_cache.txt
 
 branches:
   only:
@@ -19,48 +28,51 @@ branches:
 
 # set your own environment variables here.
 #
+# Perl 5's Test::Harness has several env variables (many appear as prove switches)
+#   https://metacpan.org/pod/Test::Harness
+
 environment:
     MY_VAR: true
+    MSIEXEC_WAIT_SECONDS: 10
+    AUTOMATED_TESTING: 1
+    TEST_VERBOSE: 0
+    HARNESS_OPTIONS:
+    HARNESS_VERBOSE: 0
+    HARNESS_TIMER: 1
+    HARNESS_PERL_SWITCHES: -MDevel::Cover
+    APPVEYOR_YML_DISABLE_PS_LINUX: true
 
 install:
-  - if not exist "C:\Strawberry" cinst strawberryperl
-  - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
+  # Install Strawberry Perl with chocolately.
+  # Strawberry Perl comes with `prove`, which we use to run the tests.
+  # http://strawberryperl.com
+  # https://chocolatey.org/packages/StrawberryPerl
+  - ps: if not exist "C:\Strawberry" cinst strawberryperl
+  - ps: SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - ps: refreshenv
-  # multiline must be indented to the same column as the |. Only spaces!
-  #
-  # Start-Process isn't working. No idea why.
-  - ps: |
-        if ( ! (Test-Path C:\Rakudo) )
-        {
-          Set-Location -Path "$env:APPVEYOR_BUILD_FOLDER\.."
-          Write-Host (Get-Item -Path ".\" -Verbose).FullName
-          Start-FileDownload 'http://rakudo.org/downloads/star/rakudo-star-latest-x86_64%20(JIT).msi' -FileName 'rakudo.msi'
-          get-filehash -algorithm md5 'rakudo.msi'
-          Start-Process -FilePath 'msiexec.exe' -ArgumentList '/i rakudo.msi /qn /norestart /log' -Wait -NoNewWindow
-        }
-  - SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
+  - sh: apt-get install build-essential git libssl-dev
+  - sh: apt-get install -y perl
+  - perl -v
+  # Install Rakudo Star with chocolately.
+  # https://chocolatey.org/packages/rakudostar
+  - ps: if not exist "C:\Rakudo" cinst rakudostar
+  - ps: SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
+  - sh: mkdir rakudo && cd $_
+  - sh: curl -O https://rakudo.perl6.org/downloads/star/rakudo-star-2018.01.tar.gz
+  - sh: tar -xvzf rakudo-star-2018.01.tar.gz
+  - sh: cd rakudo-star-2018.01/
+  - sh: perl Configure.pl --backend=moar --gen-moar
+  - sh: make install
+  - sh: export PATH=$(pwd)/install/bin/:$(pwd)/install/share/perl6/site/bin:\$PATH"
   - perl6 -v
-  # probably want to install zef as a group of steps
-  - git clone https://github.com/ugexe/zef %APPVEYOR_BUILD_FOLDER%\..\zef
-  - cd %APPVEYOR_BUILD_FOLDER%\..\zef
-  - perl6 -Ilib bin/zef install .
-  # install the target distribution's dependencies
-  - zef --verbose install .
-  # change back to the target project's clone folder
-  - cd %APPVEYOR_BUILD_FOLDER%
 
 build: off
 
+# many of the settings in `environment` affect what happens in the test script
+#
+# I'd like to run Devel::Cover and submit to Coveralls too.
 test_script:
   - prove -v -e "perl6 -Ilib" t/
 
 shallow_clone: true
-
-# Other Perl 6 AppVeyor configs
-#   https://gist.github.com/ugexe/e95307a3a606df83fdcb
-#   https://gist.github.com/MARTIMM/b0cc86cec30dbcabf6e9732a53879dbb/
-#   https://github.com/perl6/atom-language-perl6/blob/master/appveyor.yml
-#   https://github.com/azawawi/perl6-opencv/blob/master/appveyor.yml
-#   https://github.com/ugexe/Perl6-Distribution--Common--Remote/blob/master/.appveyor.yml
-#   https://github.com/azawawi/perl6-net-curl/blob/master/appveyor.yml
