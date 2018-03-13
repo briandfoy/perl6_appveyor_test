@@ -8,7 +8,7 @@ class Perl6AppVeyorTest {
 		}
 
 	method subtract-numbers ( Int $m, Int $n --> Int ) {
-		if ( 1 ) {
+		if True {
 			return $m - $n
 			}
 		else {
