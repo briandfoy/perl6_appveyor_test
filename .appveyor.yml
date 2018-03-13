@@ -38,7 +38,7 @@ install:
   # Strawberry Perl comes with `prove`, which we use to run the tests.
   # http://strawberryperl.com
   # https://chocolatey.org/packages/StrawberryPerl
-  - ps: if not exist "C:\Strawberry" cinst strawberryperl
+  - cmd: if not exist "C:\Strawberry" cinst strawberryperl
   - ps: SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - ps: refreshenv
   - sh: apt-get install build-essential git libssl-dev
@@ -46,7 +46,7 @@ install:
   - perl -v
   # Install Rakudo Star with chocolately.
   # https://chocolatey.org/packages/rakudostar
-  - ps: if not exist "C:\Rakudo" cinst rakudostar
+  - cmd: if not exist "C:\Rakudo" cinst rakudostar
   - ps: SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
   - ps: refreshenv
   - sh: mkdir rakudo && cd $_
